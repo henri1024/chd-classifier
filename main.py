@@ -56,11 +56,13 @@ def predict_chd(data: Record):
 
         if result[0][0] > 0.5:
             return {
-                'prediction': 1
+                'prediction': 1,
+                'probability': str(result[0][0])
             }
         else:
             return{
-                'prediction': 0
+                'prediction': 0,
+                'probability': str(result[0][0])
             }
 
     except Exception as e:
