@@ -14,7 +14,7 @@ load_dotenv()
 app = FastAPI()
 
 model = tf.keras.models.load_model('model/ann_model/')
-scaler_filename = os.getenv("SCALER_FILENAME")
+scaler_filename = "model/scaler.save"
 sc = joblib.load(scaler_filename)
 
 # id,age,sex,is_smoking,cigsPerDay,BPMeds,prevalentStroke,prevalentHyp,diabetes,totChol,sysBP,diaBP,BMI,heartRate,glucose,TenYearCHD
@@ -88,7 +88,7 @@ def _predict(arr):
 
 if __name__ == '__main__':
 
-    host = os.getenv('APP_HOST') if os.getenv('APP_HOST') else '127.0.0.1'
-    port = int(os.getenv('APP_PORT')) if os.getenv('APP_PORT') else 8080
+    host = os.getenv('APP_HOST') if os.getenv('APP_HOST') else '0.0.0.0'
+    port = int(os.getenv('APP_PORT')) if os.getenv('APP_PORT') else '9999'
 
     uvicorn.run(app, host=host, port=port)
