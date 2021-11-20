@@ -91,4 +91,4 @@ if __name__ == '__main__':
     host = os.getenv('APP_HOST') if os.getenv('APP_HOST') else '127.0.0.1'
     port = int(os.getenv('APP_PORT')) if os.getenv('APP_PORT') else 8080
 
-    uvicorn.run(app, host='127.0.0.1', port=8000)
+    uvicorn.run(app, host=host, port=port)
