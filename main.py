@@ -88,6 +88,10 @@ def index():
 
 @app.post("/tmp/upload")
 async def upload(file: UploadFile = File(...), ):
+
+    if os.getenv('ENVIRONMENT') == 'production':
+        return {'message': 'This environment dont support retraining!'}
+
     extension = file.filename.split(".")[-1] in ("csv")
     if not extension:
         return "file must be in csv extension!"
@@ -102,6 +106,10 @@ async def upload(file: UploadFile = File(...), ):
 
 @app.post('/tmp/train')
 async def training(data: RetrainVariables):
+
+    if os.getenv('ENVIRONMENT') == 'production':
+        return {'message': 'This environment dont support retraining!'}
+
     file_path = 'tmp/temp_data.csv'
 
     if data.epochs > 30:
@@ -112,12 +120,9 @@ async def training(data: RetrainVariables):
 
 @app.post('/tmp/predict')
 def predict_chd_temp_model(data: Record):
-    """ FastAPI 
-    Args:
-        data (Record): json file 
-    Returns:
-        prediction: classification CHD potential
-    """
+
+    if os.getenv('ENVIRONMENT') == 'production':
+        return {'message': 'This environment dont support retraining!'}
 
     try:
         arr = _preprocessing(data)
