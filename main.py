@@ -90,11 +90,11 @@ def index():
 async def upload(file: UploadFile = File(...), ):
 
     if os.getenv('ENVIRONMENT') == 'production':
-        return {'message': 'This environment dont support retraining!'}
+        return HTTPException(status_code=400, detail=str({'message': 'This environment dont support retraining!'}))
 
     extension = file.filename.split(".")[-1] in ("csv")
     if not extension:
-        return "file must be in csv extension!"
+        return HTTPException(status_code=400, detail=str({'message': 'file must be in csv extension!'}))
 
     file.filename = 'temp_data.csv'
 
@@ -103,26 +103,28 @@ async def upload(file: UploadFile = File(...), ):
     with open(file_path, "wb") as f:
         f.write(file.file.read())
 
+    return {'message': 'file uploaded successfully'}
+
 
 @app.post('/tmp/train')
 async def training(data: RetrainVariables):
 
     if os.getenv('ENVIRONMENT') == 'production':
-        return {'message': 'This environment dont support retraining!'}
+        return HTTPException(status_code=400, detail=str({'message': 'This environment dont support retraining!'}))
 
     file_path = 'tmp/temp_data.csv'
 
     if data.epochs > 30:
-        return {'message': 'reach maximum epochs, max retraining epochs is 30'}
+        return HTTPException(status_code=400, detail=str({'message': 'reach maximum epochs, max retraining epochs is 30'}))
 
     result = _training(file_path, data)
     return {'message': result}
 
 @app.post('/tmp/predict')
-def predict_chd_temp_model(data: Record):
+async def predict_chd_temp_model(data: Record):
 
     if os.getenv('ENVIRONMENT') == 'production':
-        return {'message': 'This environment dont support retraining!'}
+        return HTTPException(status_code=400, detail=str({'message': 'This environment dont support retraining!'}))
 
     try:
         arr = _preprocessing(data)
