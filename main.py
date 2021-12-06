@@ -235,8 +235,9 @@ def _training(file, data):
         y_pred = model.predict(x_val)
         cm = confusion_matrix(y_val, y_pred >= 0.5)
 
-        return {"confusion_matrix": cm.tolist(), "accuracy": accuracy_score(y_val, y_pred >= 0.5)}
+        cm = cm.tolist()
 
+        return {"true_positive":cm[0][0], 'false_positive':cm[0][1],'false_negative':cm[1][0], 'true_negative':cm[1][1] , "accuracy": accuracy_score(y_val, y_pred >= 0.5)}
     except Exception as e:
         raise ValueError('failed to train model')
 
