@@ -10,7 +10,7 @@ clang==5.0
 click==8.0.3
 contextlib2==21.6.0
 contextvars==2.4
-dataclasses==0.8
+dataclasses==0.6
 fastapi==0.70.0
 flatbuffers==1.12
 gast==0.4.0
@@ -30,7 +30,6 @@ Markdown==3.3.4
 numpy==1.19.5
 oauthlib==3.1.1
 opt-einsum==3.3.0
-pkg_resources==0.0.0
 protobuf==3.19.1
 pyasn1==0.4.8
 pyasn1-modules==0.2.8
